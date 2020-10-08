@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import Api from "@/services/Api";
+import { getField, updateField } from "vuex-map-fields";
 
 Vue.use(Vuex);
 
@@ -19,6 +20,16 @@ const modules = requireContext
 export default new Vuex.Store({
   state: {
     uploadPercentage: 0,
+    drawer: true,
+  },
+  getters: {
+    getField,
+  },
+  mutations: {
+    updateField,
+    TOGGLE_DRAWER(state) {
+      state.drawer = !state.drawer;
+    },
   },
   actions: {
     request({ state }, { method, url, data, params }) {
@@ -35,6 +46,9 @@ export default new Vuex.Store({
           }
         },
       });
+    },
+    toggleDrawer({ commit }) {
+      commit("TOGGLE_DRAWER");
     },
   },
   modules,

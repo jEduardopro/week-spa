@@ -21,6 +21,13 @@ export const mutations = {
     let encryptedWkToken = btoa(JSON.stringify(wk_token_obj));
     localStorage.setItem("wk_token", encryptedWkToken);
   },
+  CLEAR_FORM_LOGIN(state) {
+    state.formLogin = {
+      email: null,
+      password: null,
+      showPassword: false,
+    };
+  },
   LOGOUT(state) {
     state.user = null;
     state.token = null;
@@ -44,12 +51,17 @@ export const actions = {
           user: resp.data.user,
           token: `Bearer ${resp.data.access_token}`,
         });
+        commit("CLEAR_FORM_LOGIN");
         vm.$router.replace({ name: "Home" });
       })
       .catch((err) => {
         console.log(err);
       });
   },
+
+  requestReset({ state, commit, dispatch }) {},
+
+  reset({ state, commit, dispatch }) {},
 
   logout({ commit, dispatch }) {
     commit("LOGOUT");

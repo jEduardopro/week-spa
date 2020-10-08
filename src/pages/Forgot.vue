@@ -8,27 +8,15 @@
           outlined
           dense
         ></v-text-field>
-        <v-text-field
-          v-model="formLogin.password"
-          outlined
-          dense
-          :append-icon="formLogin.showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="formLogin.showPassword ? 'text' : 'password'"
-          label="Contraseña"
-          @click:append="formLogin.showPassword = !formLogin.showPassword"
-          class="mt-3"
-        ></v-text-field>
         <v-btn
+          @click="requestReset"
           block
           color="teal accent-3"
           large
           class="mb-8 white--text"
-          @click="login"
-          >Iniciar sesion</v-btn
+          >Restablecer contraseña</v-btn
         >
-        <router-link :to="{ name: 'ForgotPassword' }"
-          >Olvidaste tu contraseña?</router-link
-        >
+        <router-link :to="{ name: 'Login' }">Iniciar sesion</router-link>
       </template>
     </login-layout>
   </div>
@@ -43,7 +31,7 @@ export default {
     ...mapState("auth", ["formLogin"]),
   },
   methods: {
-    ...mapActions("auth", ["login"]),
+    ...mapActions("auth", ["requestReset"]),
   },
 };
 </script>

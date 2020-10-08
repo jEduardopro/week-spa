@@ -7,6 +7,11 @@ const routes = [
     component: () => import("@/pages/Login"),
   },
   {
+    path: "/forgot/password",
+    name: "ForgotPassword",
+    component: () => import("@/pages/Forgot"),
+  },
+  {
     path: "/",
     name: "Home",
     component: () => import("@/layouts/Layout"),
