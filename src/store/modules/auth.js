@@ -64,7 +64,6 @@ export const actions = {
   reset({ state, commit, dispatch }) {},
 
   logout({ commit, dispatch }) {
-    commit("LOGOUT");
     vm.$router.replace({ name: "Login" });
     dispatch(
       "request",
@@ -74,7 +73,9 @@ export const actions = {
       },
       { root: true }
     )
-      .then((resp) => {})
+      .then((resp) => {
+        commit("LOGOUT");
+      })
       .catch((err) => {
         console.log(err);
       });
