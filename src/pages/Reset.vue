@@ -18,17 +18,25 @@
           @click:append="creadentials.showPassword = !creadentials.showPassword"
           class="mt-3"
         ></v-text-field>
+        <v-text-field
+          v-model="creadentials.password_confirmation"
+          outlined
+          dense
+          :append-icon="creadentials.showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="creadentials.showPassword ? 'text' : 'password'"
+          label="Confirmar Contraseña"
+          @click:append="creadentials.showPassword = !creadentials.showPassword"
+          class="mt-3"
+        ></v-text-field>
         <v-btn
           block
           color="teal accent-3"
           large
           class="mb-8 white--text"
-          @click="login"
-          >Iniciar sesion</v-btn
+          @click="reset"
+          >Restablecer contraseña</v-btn
         >
-        <router-link :to="{ name: 'ForgotPassword' }"
-          >Olvidaste tu contraseña?</router-link
-        >
+        <router-link :to="{ name: 'Login' }">Iniciar sesion</router-link>
       </template>
     </login-layout>
   </div>
@@ -38,12 +46,17 @@
 import LoginLayout from "../components/auth/LoginLayout.vue";
 import { mapActions, mapState } from "vuex";
 export default {
+  props: ["token"],
   components: { LoginLayout },
   computed: {
     ...mapState("auth", ["creadentials"]),
   },
   methods: {
-    ...mapActions("auth", ["login"]),
+    ...mapActions("auth", ["reset"]),
+  },
+  created() {
+    this.creadentials.token = this.token;
+    this.creadentials.email = this.$route.query.email || "";
   },
 };
 </script>

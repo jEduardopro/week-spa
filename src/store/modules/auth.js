@@ -1,9 +1,11 @@
 export const state = {
   user: null,
   token: null,
-  formLogin: {
+  creadentials: {
+    token: null,
     email: null,
     password: null,
+    password_confirmation: null,
     showPassword: false,
   },
 };
@@ -22,7 +24,7 @@ export const mutations = {
     localStorage.setItem("wk_token", encryptedWkToken);
   },
   CLEAR_FORM_LOGIN(state) {
-    state.formLogin = {
+    state.creadentials = {
       email: null,
       password: null,
       showPassword: false,
@@ -42,7 +44,7 @@ export const actions = {
       {
         method: "post",
         url: "auth/login",
-        data: state.formLogin,
+        data: state.creadentials,
       },
       { root: true }
     )
@@ -59,9 +61,41 @@ export const actions = {
       });
   },
 
-  requestReset({ state, commit, dispatch }) {},
+  requestReset({ state, commit, dispatch }) {
+    dispatch(
+      "request",
+      {
+        method: "post",
+        url: "auth/password/email",
+        data: { email: state.creadentials.email },
+      },
+      { root: true }
+    )
+      .then((resp) => {
+        console.log(resp.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
 
-  reset({ state, commit, dispatch }) {},
+  reset({ state, commit, dispatch }) {
+    dispatch(
+      "request",
+      {
+        method: "post",
+        url: "auth/password/reset",
+        data: state.creadentials,
+      },
+      { root: true }
+    )
+      .then((resp) => {
+        console.log(resp.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
 
   logout({ commit, dispatch }) {
     vm.$router.replace({ name: "Login" });

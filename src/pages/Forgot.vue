@@ -3,7 +3,7 @@
     <login-layout>
       <template v-slot:form>
         <v-text-field
-          v-model="formLogin.email"
+          v-model="creadentials.email"
           label="Direccion de correo"
           outlined
           dense
@@ -28,7 +28,7 @@ import { mapActions, mapState } from "vuex";
 export default {
   components: { LoginLayout },
   computed: {
-    ...mapState("auth", ["formLogin"]),
+    ...mapState("auth", ["creadentials"]),
   },
   methods: {
     ...mapActions("auth", ["requestReset"]),

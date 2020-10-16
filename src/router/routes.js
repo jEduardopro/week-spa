@@ -12,6 +12,12 @@ const routes = [
     component: () => import("@/pages/Forgot"),
   },
   {
+    path: "/reset/password/:token",
+    name: "ResetPassword",
+    component: () => import("@/pages/Reset"),
+    props: true,
+  },
+  {
     path: "/",
     name: "Home",
     component: () => import("@/layouts/Layout"),
