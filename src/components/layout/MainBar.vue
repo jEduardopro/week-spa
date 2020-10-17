@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="white" height="50px">
+  <v-app-bar app color="white" dense flat height="50px">
     <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
     <v-spacer></v-spacer>
     <v-menu offset-y transition="scale-transition" origin="top right">

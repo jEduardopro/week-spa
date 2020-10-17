@@ -4,7 +4,10 @@
     <MainBar />
 
     <v-container fluid>
-      <router-view></router-view>
+      <div class="main-content px-lg-5 px-sm-0">
+        <Breadcrumbs class="px-0" />
+        <router-view></router-view>
+      </div>
     </v-container>
 
     <v-footer app> </v-footer>
@@ -13,10 +16,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import NavigationDrawer from "../components/layout/NavigationDrawer.vue";
-import MainBar from "../components/layout/MainBar.vue";
 export default {
-  components: { NavigationDrawer, MainBar },
   name: "App",
 };
 </script>

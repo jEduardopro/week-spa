@@ -43,11 +43,9 @@
 </template>
 
 <script>
-import LoginLayout from "../components/auth/LoginLayout.vue";
 import { mapActions, mapState } from "vuex";
 export default {
   props: ["token"],
-  components: { LoginLayout },
   computed: {
     ...mapState("auth", ["creadentials"]),
   },
