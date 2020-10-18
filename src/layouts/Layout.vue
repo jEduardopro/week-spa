@@ -5,12 +5,12 @@
 
     <v-container fluid>
       <div class="main-content px-lg-5 px-sm-0">
-        <Breadcrumbs class="px-0" />
-        <router-view></router-view>
+        <!-- <Breadcrumbs class="px-0" /> -->
+        <v-card>
+          <router-view></router-view>
+        </v-card>
       </div>
     </v-container>
-
-    <v-footer app> </v-footer>
   </v-main>
 </template>
 
@@ -23,6 +23,6 @@ export default {
 
 <style lang="scss">
 .header-menu {
-  height: 50px !important;
+  height: 65px !important;
 }
 </style>

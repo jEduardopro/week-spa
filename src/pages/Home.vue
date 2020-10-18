@@ -1,6 +1,10 @@
 <template>
   <div>
-    Home
+    <v-card-title primary-title> Home </v-card-title>
+    <v-card-text>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
+      veritatis?
+    </v-card-text>
   </div>
 </template>
 

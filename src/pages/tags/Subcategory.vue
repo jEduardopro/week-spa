@@ -1,9 +1,6 @@
 <template>
   <div>
-    Subcategory
+    <v-card-title primary-title> Subcategorias </v-card-title>
+    <v-card-text> text </v-card-text>
   </div>
 </template>
-
-<script>
-export default {};
-</script>

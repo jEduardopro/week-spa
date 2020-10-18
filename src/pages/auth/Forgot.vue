@@ -11,7 +11,7 @@
         <v-btn
           @click="requestReset"
           block
-          color="teal accent-3"
+          color="primary"
           large
           class="mb-8 white--text"
           >Restablecer contraseña</v-btn

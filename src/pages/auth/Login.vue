@@ -20,8 +20,8 @@
         ></v-text-field>
         <v-btn
           block
-          color="teal accent-3"
           large
+          color="primary"
           class="mb-8 white--text"
           @click="login"
           >Iniciar sesion</v-btn

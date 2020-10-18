@@ -35,6 +35,19 @@
       <v-list-item
         exact
         active-class="item-active"
+        :to="{ name: 'Proyects' }"
+        link
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-layers-triple-outline</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Mis proyectos</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        exact
+        active-class="item-active"
         :to="{ name: 'Tasks' }"
         link
       >
@@ -45,6 +58,7 @@
           <v-list-item-title>Mis tareas</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
       <v-list-item
         exact
         active-class="item-active"

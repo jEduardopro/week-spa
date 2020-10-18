@@ -30,7 +30,7 @@
         ></v-text-field>
         <v-btn
           block
-          color="teal accent-3"
+          color="primary"
           large
           class="mb-8 white--text"
           @click="reset"

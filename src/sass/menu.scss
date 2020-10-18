@@ -3,7 +3,7 @@
   padding-top: 0px;
   padding-bottom: 0px;
   .v-list-item__content {
-    color: $lightGreySecondary;
+    // color: $lightGreySecondary;
     padding: 0px;
   }
   .v-list-item__icon {
@@ -12,13 +12,13 @@
     margin-right: 5px;
     i {
       font-size: 24px !important;
-      color: $lightGreyPrimary;
+      // color: $lightGreyPrimary;
     }
   }
   &.item-active.v-list-item--active {
     .v-list-item__icon {
       i {
-        color: $greenPrimary;
+        // color: $greenPrimary;
       }
     }
   }
@@ -27,7 +27,7 @@
 .v-list-group {
   .v-list-group__header.active-group {
     .v-list-item__icon {
-      color: $lightGreyPrimary;
+      // color: $lightGreyPrimary;
     }
   }
   .v-list-group__items {
@@ -46,5 +46,5 @@
   color: $white !important;
 }
 .item-active {
-  color: $white !important;
+  color: $primary !important;
 }

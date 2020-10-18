@@ -11,7 +11,11 @@
             >
               <div class="pa-lg-9 pa-md-6 pa-sm-3">
                 <div class="logo text-center mb-5">
-                  <img :src="require('@/assets/logo.png')" width="15%" alt="" />
+                  <img
+                    :src="require('@/assets/icono-week.png')"
+                    width="25%"
+                    alt=""
+                  />
                 </div>
                 <slot name="form"></slot>
               </div>

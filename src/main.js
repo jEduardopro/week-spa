@@ -33,6 +33,20 @@ let app = new Vue({
   store,
   vuetify,
   render: (h) => h(App),
+  beforeCreate() {
+    document.title = this.$route.meta.title || process.env.VUE_APP_NAME;
+  },
+  watch: {
+    $route(to, from) {
+      if (to.meta.hasOwnProperty("title")) {
+        document.title =
+          to.meta.title + " - " + process.env.VUE_APP_NAME ||
+          process.env.VUE_APP_NAME;
+      } else {
+        document.title = process.env.VUE_APP_NAME;
+      }
+    },
+  },
 }).$mount("#app");
 
 global.vm = app;
