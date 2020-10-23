@@ -9,5 +9,13 @@
 </template>
 
 <script>
-export default {};
+import { mapActions } from "vuex";
+export default {
+  methods: {
+    ...mapActions("auth", ["me"]),
+  },
+  created() {
+    this.me();
+  },
+};
 </script>

@@ -5,20 +5,20 @@ const routes = [
     path: "/login",
     name: "Login",
     component: () => import("@/pages/auth/Login"),
-    meta: { title: "Iniciar sesion" },
+    meta: { middleware: middlewares.guest, title: "Iniciar sesion" },
   },
   {
     path: "/forgot/password",
     name: "ForgotPassword",
     component: () => import("@/pages/auth/Forgot"),
-    meta: { title: "Restablecer contraseña" },
+    meta: { middleware: middlewares.guest, title: "Restablecer contraseña" },
   },
   {
     path: "/reset/password/:token",
     name: "ResetPassword",
     component: () => import("@/pages/auth/Reset"),
     props: true,
-    meta: { title: "Restablecer contraseña" },
+    meta: { middleware: middlewares.guest, title: "Restablecer contraseña" },
   },
   {
     path: "/",

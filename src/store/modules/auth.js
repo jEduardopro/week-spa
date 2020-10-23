@@ -38,6 +38,22 @@ export const mutations = {
 };
 
 export const actions = {
+  me({ dispatch }) {
+    dispatch(
+      "request",
+      {
+        method: "get",
+        url: "user",
+      },
+      { root: true }
+    )
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
   login({ state, commit, dispatch }) {
     dispatch(
       "request",
@@ -50,8 +66,8 @@ export const actions = {
     )
       .then((resp) => {
         commit("SAVE_TOKEN_USER", {
-          user: resp.data.user,
-          token: `Bearer ${resp.data.access_token}`,
+          user: resp.data.data.user,
+          token: `Bearer ${resp.data.data.access_token}`,
         });
         commit("CLEAR_FORM_LOGIN");
         vm.$router.replace({ name: "Home" });
@@ -111,6 +127,7 @@ export const actions = {
         commit("LOGOUT");
       })
       .catch((err) => {
+        commit("LOGOUT");
         console.log(err);
       });
   },
