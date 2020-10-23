@@ -1,0 +1,28 @@
+.proyects-wrap {
+  .content-proyect {
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(0px);
+    .proyect-item {
+      position: relative;
+      .v-btn {
+        position: absolute;
+        left: auto;
+        right: 0px;
+        top: 0px;
+        display: none;
+      }
+    }
+    &:hover {
+      background: #f6f8f9;
+      transform: translateY(-4px);
+      transition: all 0.3s ease-in-out;
+
+      .proyect-item {
+        .v-btn {
+          display: block;
+        }
+      }
+    }
+  }
+}

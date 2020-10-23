@@ -11,7 +11,7 @@ export default new Vuetify({
     thresholds: {
       xs: 600,
       sm: 960,
-      md: 1280,
+      md: 1080,
       lg: 1920,
     },
   },
