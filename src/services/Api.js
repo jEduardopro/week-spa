@@ -32,4 +32,18 @@ Axios.interceptors.request.use(
   }
 );
 
+Axios.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    if (error.response.status == 401) {
+      localStorage.removeItem("wk_token");
+      window.location.replace("/login");
+      return null;
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default Axios;

@@ -48,7 +48,7 @@ export const actions = {
       { root: true }
     )
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
       })
       .catch((err) => {
         console.log(err);
@@ -66,8 +66,8 @@ export const actions = {
     )
       .then((resp) => {
         commit("SAVE_TOKEN_USER", {
-          user: resp.data.data.user,
-          token: `Bearer ${resp.data.data.access_token}`,
+          user: resp.data.user,
+          token: `Bearer ${resp.data.access_token}`,
         });
         commit("CLEAR_FORM_LOGIN");
         vm.$router.replace({ name: "Home" });
@@ -88,7 +88,7 @@ export const actions = {
       { root: true }
     )
       .then((resp) => {
-        console.log(resp.data);
+        console.log(resp);
       })
       .catch((err) => {
         console.log(err);
@@ -106,7 +106,7 @@ export const actions = {
       { root: true }
     )
       .then((resp) => {
-        console.log(resp.data);
+        console.log(resp);
       })
       .catch((err) => {
         console.log(err);
