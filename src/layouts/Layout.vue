@@ -1,5 +1,6 @@
 <template>
   <v-main>
+    <Drawer />
     <NavigationDrawer />
     <MainBar />
 

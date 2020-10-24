@@ -20,7 +20,7 @@ const modules = requireContext
 export default new Vuex.Store({
   state: {
     uploadPercentage: 0,
-    drawer: true,
+    drawerMenu: true,
   },
   getters: {
     getField,
@@ -28,7 +28,7 @@ export default new Vuex.Store({
   mutations: {
     updateField,
     TOGGLE_DRAWER(state) {
-      state.drawer = !state.drawer;
+      state.drawerMenu = !state.drawerMenu;
     },
   },
   actions: {

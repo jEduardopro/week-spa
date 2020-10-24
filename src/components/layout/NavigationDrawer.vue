@@ -5,7 +5,7 @@
     dark
     app
     width="240px"
-    v-model="drawer"
+    v-model="drawerMenu"
   >
     <v-card
       color="#151b26"
@@ -131,7 +131,7 @@
 import { mapFields } from "vuex-map-fields";
 export default {
   computed: {
-    ...mapFields(["drawer"]),
+    ...mapFields(["drawerMenu"]),
   },
   data: () => ({}),
 };
