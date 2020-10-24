@@ -34,8 +34,27 @@ const routes = [
       {
         path: "proyects",
         name: "Proyects",
-        component: () => import("@/pages/proyects/Proyect"),
+        component: () => import("@/pages/proyects/index"),
         meta: { middleware: middlewares.auth, title: "Mis proyectos" },
+      },
+      {
+        path: "proyects/:id",
+        redirect: { name: "ProyectShowList" },
+        component: () => import("@/pages/proyects/show"),
+        meta: { middleware: middlewares.auth },
+        props: true,
+        children: [
+          {
+            path: "list",
+            name: "ProyectShowList",
+            component: () => import("@/pages/proyects/list"),
+          },
+          {
+            path: "board",
+            name: "ProyectShowBoard",
+            component: () => import("@/pages/proyects/board"),
+          },
+        ],
       },
       {
         path: "tasks",

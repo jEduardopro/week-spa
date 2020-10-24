@@ -6,7 +6,7 @@
     <v-container fluid>
       <div class="main-content px-lg-5 px-sm-0">
         <!-- <Breadcrumbs class="px-0" /> -->
-        <v-card>
+        <v-card style="height: auto; min-height: 85vh; max-height: 100%">
           <router-view></router-view>
         </v-card>
       </div>
