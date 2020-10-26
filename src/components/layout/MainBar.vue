@@ -1,5 +1,12 @@
 <template>
-  <v-app-bar app color="white" dense flat height="65px">
+  <v-app-bar
+    app
+    color="white"
+    dense
+    style="border-bottom:1px solid #E8ECEE!important;"
+    flat
+    height="65px"
+  >
     <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
     <p class="mx-5 pt-4">{{ $route.meta.title }}</p>
     <v-spacer></v-spacer>

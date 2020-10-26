@@ -1,3 +1,4 @@
+import axios from 'axios';
 export const state = {
   user: null,
   token: null,
@@ -33,7 +34,6 @@ export const mutations = {
   LOGOUT(state) {
     state.user = null;
     state.token = null;
-    localStorage.removeItem("wk_token");
   },
 };
 
@@ -113,22 +113,19 @@ export const actions = {
       });
   },
 
-  logout({ commit, dispatch }) {
+  logout({ state, commit, dispatch }) {
+    localStorage.removeItem("wk_token")
     vm.$router.replace({ name: "Login" });
-    dispatch(
-      "request",
-      {
-        method: "post",
-        url: "auth/logout",
-      },
-      { root: true }
-    )
-      .then((resp) => {
-        commit("LOGOUT");
-      })
-      .catch((err) => {
-        commit("LOGOUT");
-        console.log(err);
-      });
+    axios.post(`${process.env.VUE_APP_API_URL}auth/logout`, {},{
+      headers:{
+        Authorization: state.token
+      }
+    })
+    .then(function (response) {
+      commit("LOGOUT");
+    })
+    .catch(function (error) {
+      commit("LOGOUT");
+    })
   },
 };

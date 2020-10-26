@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "../store";
 
 const baseURL = process.env.VUE_APP_API_URL;
 
@@ -37,13 +38,41 @@ Axios.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    if (error.response.status == 401) {
+    const {config,response:{status,data}} = error;
+    const originalReq = config;
+    if (status == 401) {
+      if (localStorage.getItem("wk_token")) {
+        const wk_token = JSON.parse(atob(localStorage.getItem("wk_token")));
+        console.log(originalReq);
+        console.log(wk_token.user);
+        refreshToken(wk_token.user, originalReq)
+
+      } else {
+        window.location.replace("/login");
+      }
+      return null;
+    } else {
       localStorage.removeItem("wk_token");
       window.location.replace("/login");
-      return null;
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
   }
 );
+
+async function refreshToken(user, lastReq) {
+  try {
+    let resp = await axios.post('http://localhost:8000/api/auth/refresh/token',{email:user.email})
+    store.commit("auth/SAVE_TOKEN_USER", {
+      user: resp.data.data.user,
+      token: `Bearer ${resp.data.data.access_token}`,
+    },{root:true});
+    lastReq.headers.Authorization = `Bearer ${resp.data.data.access_token}`;
+    axios(lastReq);    
+  } catch (error) {
+    console.log(error);
+    localStorage.removeItem("wk_token");
+    window.location.replace("/login");
+  }
+}
 
 export default Axios;
