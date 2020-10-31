@@ -4,16 +4,16 @@
       <v-toolbar
         flat
         class="px-4"
-        style="border-bottom:1px solid #E8ECEE;"
+        style="border-bottom: 1px solid #e8ecee"
         background-color="transparent"
       >
         <v-btn
-          small
+          x-small
           elevation="0"
           outlined
           class="text-capitalize text--secondary"
         >
-          <v-icon color="primary">mdi-check</v-icon>
+          <v-icon small color="primary">mdi-check</v-icon>
 
           <span>Marcar como completada</span>
         </v-btn>
@@ -22,37 +22,67 @@
         <v-spacer></v-spacer>
         <v-btn
           x-small
+          icon
           elevation="0"
-          class="pa-0 text--secondary"
+          class="pa-0 mx-1 text--secondary"
           color="transparent"
         >
           <v-icon>mdi-thumb-up-outline</v-icon>
         </v-btn>
         <v-btn
           x-small
+          icon
           elevation="0"
-          class="pa-0 text--secondary"
+          class="pa-0 mx-1 text--secondary"
+          color="transparent"
+        >
+          <v-icon>mdi-paperclip</v-icon>
+        </v-btn>
+        <v-btn
+          x-small
+          icon
+          elevation="0"
+          class="pa-0 mx-1 text--secondary"
+          color="transparent"
+        >
+          <v-icon>mdi-file-tree</v-icon>
+        </v-btn>
+        <v-btn
+          x-small
+          icon
+          elevation="0"
+          class="pa-0 mx-1 text--secondary"
           color="transparent"
         >
           <v-icon>mdi-dots-horizontal</v-icon>
         </v-btn>
         <v-btn
           x-small
+          icon
           elevation="0"
-          class="pa-0 text--secondary"
+          class="pa-0 mx-1 text--secondary"
           color="transparent"
         >
           <v-icon>mdi-arrow-collapse-right</v-icon>
         </v-btn>
       </v-toolbar>
     </portal>
-    <v-card-title class="pa-0 mb-8" primary-title>
+    <!-- <v-card-title class="pa-0 subtitle-2 mb-4" primary-title>
       {{ item.name }}
-    </v-card-title>
+    </v-card-title> -->
+    <v-text-field
+      label="Nombre de la tarea"
+      :value="item.name"
+      height="28px"
+      hide-details="auto"
+      class="mb-3"
+    ></v-text-field>
     <v-combobox
       clearable
-      height="25px"
+      height="28px"
       label="Responsable"
+      hide-details="auto"
+      class="mb-3"
       placeholder="Asigna al responsable de la tarea"
     ></v-combobox>
     <v-menu
@@ -68,7 +98,9 @@
         <v-text-field
           v-model="date"
           label="Fecha de fin"
-          height="25px"
+          height="28px"
+          hide-details="auto"
+          class="mb-3"
           v-bind="attrs"
           v-on="on"
         ></v-text-field>
@@ -83,11 +115,13 @@
     </v-menu>
     <v-combobox
       clearable
-      height="30px"
+      height="28px"
       :items="priorities"
       item-text="name"
       item-value="value"
       label="Prioridad"
+      hide-details="auto"
+      class="mb-3"
       placeholder="Define la prioridad de la tarea"
     >
       <template v-slot:selection="{ item }">
@@ -118,10 +152,14 @@
       auto-grow
       row-height="15"
       placeholder="Mi primer tarea"
+      class="mb-0"
+      hide-details="auto"
     ></v-textarea>
-    <v-card-subtitle class="text--secondary px-0 d-flex flex-row align-center">
-      <span>Sub tareas</span>
-      <v-spacer></v-spacer>
+    <v-card-subtitle
+      class="text--secondary px-0 my-0 d-flex flex-row align-center"
+    >
+      <!-- <span>Sub tareas</span>
+      <v-spacer></v-spacer> -->
       <v-btn
         x-small
         elevation="0"
@@ -133,6 +171,106 @@
         agregar sub tarea
       </v-btn>
     </v-card-subtitle>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
   </v-container>
 </template>
 
