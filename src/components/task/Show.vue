@@ -11,7 +11,7 @@
           x-small
           elevation="0"
           outlined
-          class="text-capitalize text--secondary"
+          class="text-capitalize py-3 text--secondary"
         >
           <v-icon small color="primary">mdi-check</v-icon>
 
