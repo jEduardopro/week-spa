@@ -2,9 +2,11 @@ import { getField, updateField } from "vuex-map-fields";
 import { PROYECT } from "@/store/types";
 export const state = {
   showForm: false,
+  proyects: [],
 };
 export const getters = {
   getField,
+  proyects: (state) => state.proyects,
   showForm: (state) => state.showForm,
 };
 export const mutations = {
@@ -12,8 +14,24 @@ export const mutations = {
   [PROYECT.TOGGLE_FORM](state) {
     state.showForm = !state.showForm;
   },
+  [PROYECT.SET_PROYECTS](state, proyects) {
+    state.proyects = proyects;
+  },
 };
 export const actions = {
+  async getProyects({ commit, dispatch }) {
+    try {
+      let response = await dispatch(
+        "request",
+        {
+          method: "GET",
+          url: "proyects",
+        },
+        { root: true }
+      );
+      commit(PROYECT.SET_PROYECTS, response.data);
+    } catch (error) {}
+  },
   toggleProyectForm({ commit }) {
     commit(PROYECT.TOGGLE_FORM);
   },

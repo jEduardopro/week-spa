@@ -6,12 +6,12 @@
         <v-col
           class="col-lg-3 col-md-6 col-xs-12 content-proyect pa-1 d-flex flex-column justify-center align-center"
         >
-          <ProyectCard />
+          <ProyectNewCard />
         </v-col>
         <v-col
           class="col-lg-3 col-md-6 col-xs-12 content-proyect pa-1 d-flex flex-column justify-center align-center"
         >
-          <ProyectNewCard />
+          <ProyectCard />
         </v-col>
       </v-layout>
     </v-container>
@@ -19,5 +19,13 @@
 </template>
 
 <script>
-export default {};
+import { mapActions, mapGetters, mapState } from "vuex";
+export default {
+  computed: {
+    ...mapGetters("proyect", ["proyects"]),
+  },
+  methods: {
+    ...mapActions("proyect", ["getProyects"]),
+  },
+};
 </script>

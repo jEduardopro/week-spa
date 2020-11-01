@@ -16,6 +16,7 @@ const DRAWER = {};
  * * Proyect Types
  */
 const PROYECT = {
+  SET_PROYECTS: "SET_PROYECTS",
   TOGGLE_FORM: "TOGGLE_FORM",
 };
 

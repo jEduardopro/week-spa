@@ -120,8 +120,5 @@ export default {
       return colors;
     },
   },
-  created() {
-    console.log(colors);
-  },
 };
 </script>

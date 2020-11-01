@@ -1,35 +1,11 @@
 import Vue from "vue";
+import "./libs";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import "./sass/app.scss";
-
-import PortalVue from "portal-vue";
-Vue.use(PortalVue);
-
-import upperFirst from "lodash/upperFirst";
-import camelCase from "lodash/camelCase";
-
-const requireComponent = require.context(
-  "./components",
-  true,
-  /[A-Z]\w+\.(vue)$/
-);
-requireComponent.keys().forEach((fileName) => {
-  const componentConfig = requireComponent(fileName);
-  const componentName = upperFirst(
-    camelCase(
-      fileName
-        .split("/")
-        .pop()
-        .replace(/\.\w+$/, "")
-    )
-  );
-  // console.log(componentName);
-  Vue.component(componentName, componentConfig.default || componentConfig);
-});
-
+import "./utils/components-register";
 Vue.config.productionTip = false;
 
 Vue.mixin({

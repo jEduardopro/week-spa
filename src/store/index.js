@@ -47,6 +47,11 @@ export default new Vuex.Store({
         },
       });
     },
+    snackbar({}, payload) {
+      payload.type = payload.type || "success";
+      payload.options = payload.options || {};
+      toastr[payload.type](payload.message, payload.title, payload.options);
+    },
     toggleDrawer({ commit }) {
       commit("TOGGLE_DRAWER");
     },
