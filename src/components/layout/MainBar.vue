@@ -3,7 +3,7 @@
     app
     color="white"
     dense
-    style="border-bottom:1px solid #E8ECEE!important;"
+    style="border-bottom: 1px solid #e8ecee !important"
     flat
     height="65px"
   >
@@ -64,7 +64,7 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item link>
+        <v-list-item @click="toggleProyectForm" link>
           <v-list-item-icon>
             <v-icon>mdi-layers-triple-outline</v-icon>
           </v-list-item-icon>
@@ -149,6 +149,7 @@ export default {
   methods: {
     ...mapActions(["toggleDrawer"]),
     ...mapActions("auth", ["logout"]),
+    ...mapActions("proyect", ["toggleProyectForm"]),
     changeWidthParent() {
       this.activeInputSearch = true;
     },
