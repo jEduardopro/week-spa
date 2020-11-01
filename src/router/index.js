@@ -1,29 +1,28 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-Vue.use(VueRouter)
+import routes from "./routes";
+import store from "@/store";
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((r) => r.meta.middleware)) {
+    const middleware = to.matched[0].meta.middleware;
+
+    //TODO: add protection when already permissions
+    // if(to.matched.some((r) => r.meta.permission)){
+    //   permission = to.matched[0].meta.permission;
+    // }
+    return middleware(next, store);
+  }
+  return next();
+});
+
+export default router;
