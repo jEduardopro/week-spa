@@ -21,6 +21,12 @@ export default new Vuex.Store({
   state: {
     uploadPercentage: 0,
     drawerMenu: true,
+    loaders: {
+      waitResponse: false,
+      waitResource: false,
+      waitAction: false,
+    },
+    errors: {},
   },
   getters: {
     getField,
@@ -29,6 +35,12 @@ export default new Vuex.Store({
     updateField,
     TOGGLE_DRAWER(state) {
       state.drawerMenu = !state.drawerMenu;
+    },
+    TOGGLE_WAIT_RESPONSE(state, loader) {
+      state.loaders[loader] = !state.loaders[loader];
+    },
+    SET_ERRORS(state, errors) {
+      state.errors = errors;
     },
   },
   actions: {
@@ -54,6 +66,28 @@ export default new Vuex.Store({
     },
     toggleDrawer({ commit }) {
       commit("TOGGLE_DRAWER");
+    },
+    catchError({ commit, dispatch }, error) {
+      const statusCode = error.response.status;
+      if (error.response.data.hasOwnProperty("exception")) {
+        dispatch("snackbar", {
+          message: "Hubo un error inesperado, intenta de nuevo",
+          type: "error",
+        });
+        return;
+      }
+      switch (statusCode) {
+        case 417:
+          dispatch("snackbar", {
+            message: error.response.data.error,
+            type: "error",
+          });
+
+          break;
+        case 422:
+          commit("SET_ERRORS", error.response.data.errors);
+          break;
+      }
     },
   },
   modules,

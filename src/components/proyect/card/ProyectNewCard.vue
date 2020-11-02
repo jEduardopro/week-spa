@@ -1,12 +1,6 @@
 <template>
-  <div>
-    <v-card
-      @click="toggleProyectForm"
-      width="120px"
-      outlined
-      flat
-      class="proyect-item"
-    >
+  <div class="content-proyect-item proyect-new">
+    <v-card @click="toggleProyectForm" outlined flat class="proyect-item">
       <v-card-text>
         <div class="text--primary text-center">
           <v-icon large>mdi-plus</v-icon>

@@ -3,16 +3,18 @@
     <!-- <v-card-title primary-title> Proyectos </v-card-title> -->
     <v-container>
       <v-layout class="proyects-wrap py-5 px-12" row wrap>
-        <v-col
-          class="col-lg-3 col-md-6 col-xs-12 content-proyect pa-1 d-flex flex-column justify-center align-center"
-        >
+        <v-col class="col-lg-3 col-md-6 col-xs-12 content-proyect pa-0">
           <ProyectNewCard />
         </v-col>
-        <v-col
-          class="col-lg-3 col-md-6 col-xs-12 content-proyect pa-1 d-flex flex-column justify-center align-center"
-        >
-          <ProyectCard />
-        </v-col>
+        <template v-if="proyects.length">
+          <v-col
+            v-for="(proyect, index) in proyects"
+            :key="index"
+            class="col-lg-3 col-md-6 col-xs-12 content-proyect pa-0"
+          >
+            <ProyectCard :proyect="proyect" />
+          </v-col>
+        </template>
       </v-layout>
     </v-container>
   </div>
@@ -26,6 +28,9 @@ export default {
   },
   methods: {
     ...mapActions("proyect", ["getProyects"]),
+  },
+  created() {
+    this.getProyects();
   },
 };
 </script>

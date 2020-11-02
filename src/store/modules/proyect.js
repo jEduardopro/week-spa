@@ -21,6 +21,7 @@ export const mutations = {
 export const actions = {
   async getProyects({ commit, dispatch }) {
     try {
+      commit("TOGGLE_WAIT_RESPONSE", "waitResource", { root: true });
       let response = await dispatch(
         "request",
         {
@@ -30,7 +31,11 @@ export const actions = {
         { root: true }
       );
       commit(PROYECT.SET_PROYECTS, response.data);
-    } catch (error) {}
+    } catch (error) {
+      dispatch("catchError", error, { root: true });
+    } finally {
+      commit("TOGGLE_WAIT_RESPONSE", "waitResource", { root: true });
+    }
   },
   toggleProyectForm({ commit }) {
     commit(PROYECT.TOGGLE_FORM);

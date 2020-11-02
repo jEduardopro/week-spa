@@ -1,10 +1,26 @@
 .proyects-wrap {
-  .content-proyect {
+  .content-proyect-item {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     transform: translateY(0px);
+    height: 100%;
+    width: 152px;
+    min-width: 152px;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column;
+    box-sizing: border-box;
+    padding: 10px;
     .proyect-item {
+      align-self: center;
       position: relative;
+      width: 120px;
+      height: 100px;
+      margin: 0 auto;
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
       .v-btn {
         position: absolute;
         left: auto;
@@ -23,6 +39,9 @@
           display: block;
         }
       }
+    }
+    .proyect-item-name {
+      margin-top: 8px;
     }
   }
 }
