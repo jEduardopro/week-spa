@@ -3,6 +3,12 @@ import { PROYECT } from "@/store/types";
 export const state = {
   showForm: false,
   proyects: [],
+  proyect: {
+    id: null,
+    name: null,
+    description: null,
+    color: null,
+  },
 };
 export const getters = {
   getField,
@@ -16,6 +22,9 @@ export const mutations = {
   },
   [PROYECT.SET_PROYECTS](state, proyects) {
     state.proyects = proyects;
+  },
+  [PROYECT.SET_PROYECT](state, proyect) {
+    state.proyect = proyect;
   },
 };
 export const actions = {
@@ -37,7 +46,10 @@ export const actions = {
       commit("TOGGLE_WAIT_RESPONSE", "waitResource", { root: true });
     }
   },
-  toggleProyectForm({ commit }) {
+  toggleProyectForm({ commit }, proyect = null) {
+    if (proyect) {
+      commit(PROYECT.SET_PROYECT, proyect);
+    }
     commit(PROYECT.TOGGLE_FORM);
   },
 };

@@ -17,6 +17,7 @@ const DRAWER = {};
  */
 const PROYECT = {
   SET_PROYECTS: "SET_PROYECTS",
+  SET_PROYECT: "SET_PROYECT",
   TOGGLE_FORM: "TOGGLE_FORM",
 };
 

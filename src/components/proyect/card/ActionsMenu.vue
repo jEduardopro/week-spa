@@ -35,62 +35,20 @@
                 :key="color + idx"
                 class="pa-0 ma-0"
               >
-                <v-btn small icon class="pa-0 ma-0">
+                <v-btn
+                  @click="$emit('set-color', color)"
+                  small
+                  icon
+                  class="pa-0 ma-0"
+                >
                   <v-icon :color="color">mdi-square-rounded</v-icon>
                 </v-btn>
               </v-col>
-              <!-- <v-col class="pa-0 ma-0">
-                <v-btn small icon class="pa-0 ma-0">
-                  <v-icon color="light-green">mdi-square-rounded</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col class="pa-0 ma-0">
-                <v-btn small icon class="pa-0 ma-0">
-                  <v-icon color="green">mdi-square-rounded</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col class="pa-0 ma-0">
-                <v-btn small icon class="pa-0 ma-0">
-                  <v-icon color="green darken-3">mdi-square-rounded</v-icon>
-                </v-btn>
-              </v-col> -->
             </v-row>
-            <!-- <v-row class="pa-0 ma-0">
-              <v-col class="pa-0 ma-0">
-                <v-btn small icon class="pa-0 ma-0">
-                  <v-icon color="blue">mdi-square-rounded</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col class="pa-0 ma-0">
-                <v-btn small icon class="pa-0 ma-0">
-                  <v-icon color="indigo">mdi-square-rounded</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col class="pa-0 ma-0">
-                <v-btn small icon class="pa-0 ma-0">
-                  <v-icon color="purple">mdi-square-rounded</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col class="pa-0 ma-0">
-                <v-btn small icon class="pa-0 ma-0">
-                  <v-icon color="pink">mdi-square-rounded</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col class="pa-0 ma-0">
-                <v-btn small icon class="pa-0 ma-0">
-                  <v-icon color="pink darken-3">mdi-square-rounded</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col class="pa-0 ma-0">
-                <v-btn small icon class="pa-0 ma-0">
-                  <v-icon color="pink lighten-2">mdi-square-rounded</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row> -->
           </v-container>
         </v-card>
       </v-menu>
-      <v-list-item link>
+      <v-list-item @click="$emit('edit-proyect')" link>
         <v-list-item-icon>
           <v-icon>mdi-lead-pencil</v-icon>
         </v-list-item-icon>

@@ -5,7 +5,10 @@
       class="ma-0 pa-0 proyect-item"
       :color="proyect.color"
     >
-      <ActionsMenu />
+      <ActionsMenu
+        @set-color="update($event)"
+        @edit-proyect="toggleProyectForm(proyect)"
+      />
       <v-card-text>
         <div class="text--primary text-center">
           <v-icon large color="white">mdi-layers-triple</v-icon>
@@ -23,9 +26,14 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   props: ["proyect"],
   methods: {
+    ...mapActions("proyect", ["toggleProyectForm"]),
+    update(data) {
+      console.log(data);
+    },
     showProyect() {
       this.$router.push({
         name: "ProyectTasksList",

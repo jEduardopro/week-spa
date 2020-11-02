@@ -16,16 +16,18 @@
         <div class="text--primary">
           <v-text-field
             type="text"
+            v-model="proyect.name"
             label="Nombre del proyecto"
             placeholder="Mi primer proyecto"
           ></v-text-field>
           <v-textarea
             label="Descripcion del proyecto"
+            v-model="proyect.description"
             auto-grow
             placeholder="Proyecto escolar"
           ></v-textarea>
         </div>
-        <v-btn block color="primary"> save </v-btn>
+        <v-btn block color="primary"> guardar </v-btn>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -36,7 +38,7 @@ import { mapActions, mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
 export default {
   computed: {
-    ...mapFields("proyect", ["showForm"]),
+    ...mapFields("proyect", ["showForm", "proyect"]),
   },
   methods: {
     ...mapActions("proyect", ["toggleProyectForm"]),
