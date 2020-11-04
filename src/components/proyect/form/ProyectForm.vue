@@ -27,7 +27,15 @@
             placeholder="Proyecto escolar"
           ></v-textarea>
         </div>
-        <v-btn block color="primary"> guardar </v-btn>
+        <v-btn
+          block
+          @click="save"
+          :loading="loadingButton"
+          :disabled="loadingButton"
+          color="primary"
+        >
+          guardar
+        </v-btn>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -39,9 +47,10 @@ import { mapFields } from "vuex-map-fields";
 export default {
   computed: {
     ...mapFields("proyect", ["showForm", "proyect"]),
+    ...mapGetters(["loadingButton"]),
   },
   methods: {
-    ...mapActions("proyect", ["toggleProyectForm"]),
+    ...mapActions("proyect", ["toggleProyectForm", "save"]),
   },
 };
 </script>

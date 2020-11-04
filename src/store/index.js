@@ -25,11 +25,16 @@ export default new Vuex.Store({
       waitResponse: false,
       waitResource: false,
       waitAction: false,
+      loadingButton: false,
     },
     errors: {},
   },
   getters: {
     getField,
+    waitResponse: (state) => state.loaders.waitResponse,
+    waitResource: (state) => state.loaders.waitResource,
+    waitAction: (state) => state.loaders.waitAction,
+    loadingButton: (state) => state.loaders.loadingButton,
   },
   mutations: {
     updateField,

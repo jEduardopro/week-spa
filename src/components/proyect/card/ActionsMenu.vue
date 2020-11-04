@@ -11,7 +11,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-list-item v-bind="attrs" v-on="on">
             <v-list-item-icon>
-              <v-icon class="red--text"> mdi-square-rounded</v-icon>
+              <v-icon :color="selectedColor"> mdi-square-rounded</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
@@ -73,6 +73,7 @@
 <script>
 import { colors } from "@/utils/proyect-colors.js";
 export default {
+  props: ["selectedColor"],
   computed: {
     dataColors() {
       return colors;

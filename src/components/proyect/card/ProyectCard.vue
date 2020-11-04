@@ -6,7 +6,8 @@
       :color="proyect.color"
     >
       <ActionsMenu
-        @set-color="update($event)"
+        :selected-color="proyect.color"
+        @set-color="setColor({ proyect, color: $event })"
         @edit-proyect="toggleProyectForm(proyect)"
       />
       <v-card-text>
@@ -30,10 +31,7 @@ import { mapActions } from "vuex";
 export default {
   props: ["proyect"],
   methods: {
-    ...mapActions("proyect", ["toggleProyectForm"]),
-    update(data) {
-      console.log(data);
-    },
+    ...mapActions("proyect", ["setColor", "toggleProyectForm"]),
     showProyect() {
       this.$router.push({
         name: "ProyectTasksList",
