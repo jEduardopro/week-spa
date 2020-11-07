@@ -38,47 +38,66 @@ Axios.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    const {
-      config,
-      response: { status, data },
-    } = error;
-    const originalReq = config;
-    if (status == 401) {
-      if (localStorage.getItem("wk_token")) {
-        const wk_token = JSON.parse(atob(localStorage.getItem("wk_token")));
-        console.log(originalReq);
-        console.log(wk_token.user);
-        refreshToken(wk_token.user, originalReq);
-      } else {
-        window.location.replace("/login");
-      }
-      return null;
+    // Return any error which is not due to authentication back to the calling service
+    if (error.response.status !== 401) {
+      return new Promise((resolve, reject) => {
+        reject(error);
+      });
+    }
+    if (localStorage.getItem("wk_token")) {
+      const wk_token = JSON.parse(atob(localStorage.getItem("wk_token")));
+      return refreshToken(wk_token.user)
+        .then((token) => {
+          // New request with new token
+          const config = error.config;
+          config.headers["Authorization"] = `Bearer ${token}`;
+
+          return new Promise((resolve, reject) => {
+            axios
+              .request(config)
+              .then((response) => {
+                resolve(response.data);
+              })
+              .catch((error) => {
+                reject(error);
+              });
+          });
+        })
+        .catch((err) => {
+          Promise.reject(err);
+        });
     } else {
-      return Promise.reject(error);
+      localStorage.removeItem("wk_token");
+      window.location.replace("/login");
+      Promise.reject(error);
     }
   }
 );
 
-async function refreshToken(user, lastReq) {
-  try {
-    let resp = await axios.post(`${baseURL}auth/refresh/token`, {
-      email: user.email,
-    });
-    store.commit(
-      "auth/SAVE_TOKEN_USER",
-      {
-        user: resp.data.data.user,
-        token: `Bearer ${resp.data.data.access_token}`,
-      },
-      { root: true }
-    );
-    lastReq.headers.Authorization = `Bearer ${resp.data.data.access_token}`;
-    axios(lastReq);
-  } catch (error) {
-    console.log(error);
-    localStorage.removeItem("wk_token");
-    window.location.replace("/login");
-  }
+function refreshToken(user) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`${baseURL}auth/refresh/token`, {
+        email: user.email,
+      })
+      .then((resp) => {
+        store.commit(
+          "auth/SAVE_TOKEN_USER",
+          {
+            user: resp.data.data.user,
+            token: `Bearer ${resp.data.data.access_token}`,
+          },
+          { root: true }
+        );
+        resolve(resp.data.data.access_token);
+      })
+      .catch((err) => {
+        console.log(error);
+        localStorage.removeItem("wk_token");
+        window.location.replace("/login");
+        reject(error);
+      });
+  });
 }
 
 export default Axios;

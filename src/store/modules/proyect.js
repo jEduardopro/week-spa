@@ -106,6 +106,20 @@ export const actions = {
       commit("TOGGLE_WAIT_RESPONSE", "loadingButton", { root: true });
     }
   },
+  async delete({ commit, dispatch }, proyectId) {
+    try {
+      await dispatch(
+        "request",
+        {
+          method: "DELETE",
+          url: `proyects/${payload.id}`,
+        },
+        { root: true }
+      );
+    } catch (error) {
+      dispatch("catchError", error, { root: true });
+    }
+  },
   setColor({ dispatch }, { proyect, color }) {
     proyect.color = color;
     dispatch("update", { id: proyect.id, color });
