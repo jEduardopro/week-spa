@@ -56,7 +56,7 @@
           <v-list-item-title>Editar nombre y descripcion</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item link>
+      <v-list-item @click="$emit('delete-proyect')" link>
         <v-list-item-icon>
           <v-icon class="red--text">mdi-trash-can-outline</v-icon>
         </v-list-item-icon>

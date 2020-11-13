@@ -1,5 +1,6 @@
 <template>
   <div>
+    <toolbar title="Proyects"></toolbar>
     <!-- <v-card-title primary-title> Proyectos </v-card-title> -->
     <v-container>
       <v-layout class="proyects-wrap py-5 px-12" row wrap>
@@ -16,6 +17,7 @@
           </v-col>
         </template>
       </v-layout>
+      <DeleteConfirmation />
     </v-container>
   </div>
 </template>

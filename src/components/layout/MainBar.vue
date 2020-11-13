@@ -8,7 +8,7 @@
     height="65px"
   >
     <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
-    <p class="mx-5 pt-4">{{ $route.meta.title }}</p>
+    <portal-target name="toolbar"> </portal-target>
     <v-spacer></v-spacer>
     <div
       :class="['search-content ', activeInputSearch && 'focus-input-search']"

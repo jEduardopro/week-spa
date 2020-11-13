@@ -92,10 +92,10 @@ function refreshToken(user) {
         resolve(resp.data.data.access_token);
       })
       .catch((err) => {
-        console.log(error);
+        console.log(err);
         localStorage.removeItem("wk_token");
         window.location.replace("/login");
-        reject(error);
+        reject(err);
       });
   });
 }

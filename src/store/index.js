@@ -73,8 +73,7 @@ export default new Vuex.Store({
       commit("TOGGLE_DRAWER");
     },
     catchError({ commit, dispatch }, error) {
-      console.log(error);
-      return;
+      let statusCode = error.response.status;
       if (error.response.data.hasOwnProperty("exception")) {
         dispatch("snackbar", {
           message: "Hubo un error inesperado, intenta de nuevo",

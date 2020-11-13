@@ -9,6 +9,7 @@
         :selected-color="proyect.color"
         @set-color="setColor({ proyect, color: $event })"
         @edit-proyect="toggleProyectForm(proyect)"
+        @delete-proyect="showDeleteDialog(proyect)"
       />
       <v-card-text>
         <div class="text--primary text-center">
@@ -31,7 +32,11 @@ import { mapActions } from "vuex";
 export default {
   props: ["proyect"],
   methods: {
-    ...mapActions("proyect", ["setColor", "toggleProyectForm"]),
+    ...mapActions("proyect", [
+      "setColor",
+      "toggleProyectForm",
+      "showDeleteDialog",
+    ]),
     showProyect() {
       this.$router.push({
         name: "ProyectTasksList",
