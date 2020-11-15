@@ -10,6 +10,9 @@ export const state = {
     name: null,
     description: null,
     color: null,
+    relationships: {},
+    meta: {},
+    dates: {},
   },
 };
 export const getters = {
@@ -43,6 +46,7 @@ export const mutations = {
   },
   [PROYECT.ADD_PROYECT](state, proyect) {
     state.proyects.unshift(proyect);
+    hashTable.insert(proyect.id, proyect, "proyects");
   },
   [PROYECT.TOGGLE_DELETE_DIALOG](state) {
     state.deleteDialog = !state.deleteDialog;
@@ -69,6 +73,30 @@ export const actions = {
       dispatch("catchError", error, { root: true });
     } finally {
       commit("TOGGLE_WAIT_RESPONSE", "waitResource", { root: true });
+    }
+  },
+  async getProyect({ commit, dispatch }, id) {
+    const proyect = hashTable.get(id, "proyects");
+    if (!proyect) {
+      await dispatch("getProyectResource", id);
+      return;
+    }
+    commit(PROYECT.SET_PROYECT, proyect);
+  },
+  async getProyectResource({ commit, dispatch }, id) {
+    try {
+      let response = await dispatch(
+        "request",
+        {
+          method: "GET",
+          url: `proyects/${id}`,
+        },
+        { root: true }
+      );
+      commit(PROYECT.SET_PROYECT, response.data);
+    } catch (error) {
+      vm.$router.replace({ name: "Proyects" });
+      dispatch("catchError", error, { root: true });
     }
   },
   save({ state, dispatch }) {
@@ -131,6 +159,7 @@ export const actions = {
     try {
       commit(PROYECT.REMOVE_PROYECT, state.proyect.id);
       commit(PROYECT.TOGGLE_DELETE_DIALOG);
+      vm.$router.replace({ name: "Proyects" });
       await dispatch(
         "request",
         {
@@ -141,6 +170,7 @@ export const actions = {
       );
       dispatch("snackbar", { message: "Proyecto eliminado" }, { root: true });
     } catch (error) {
+      console.log(error);
       dispatch("catchError", error, { root: true });
     }
   },

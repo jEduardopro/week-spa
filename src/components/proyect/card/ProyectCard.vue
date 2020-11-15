@@ -5,12 +5,7 @@
       class="ma-0 pa-0 proyect-item"
       :color="proyect.color"
     >
-      <ActionsMenu
-        :selected-color="proyect.color"
-        @set-color="setColor({ proyect, color: $event })"
-        @edit-proyect="toggleProyectForm(proyect)"
-        @delete-proyect="showDeleteDialog(proyect)"
-      />
+      <ActionsMenu darkButton :proyect="proyect" />
       <v-card-text>
         <div class="text--primary text-center">
           <v-icon large color="white">mdi-layers-triple</v-icon>
@@ -32,15 +27,10 @@ import { mapActions } from "vuex";
 export default {
   props: ["proyect"],
   methods: {
-    ...mapActions("proyect", [
-      "setColor",
-      "toggleProyectForm",
-      "showDeleteDialog",
-    ]),
     showProyect() {
       this.$router.push({
         name: "ProyectTasksList",
-        params: { id: "000000125485113131121" },
+        params: { id: this.proyect.id },
       });
     },
   },

@@ -1,8 +1,8 @@
 <template>
   <v-menu bottom right offset-y>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon dark v-bind="attrs" v-on="on">
-        <v-icon>mdi-dots-horizontal</v-icon>
+      <v-btn icon :small="small" :dark="darkButton" v-bind="attrs" v-on="on">
+        <v-icon>{{ icon ? icon : "mdi-dots-horizontal" }}</v-icon>
       </v-btn>
     </template>
 
@@ -11,7 +11,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-list-item v-bind="attrs" v-on="on">
             <v-list-item-icon>
-              <v-icon :color="selectedColor"> mdi-square-rounded</v-icon>
+              <v-icon :color="proyect.color"> mdi-square-rounded</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
@@ -36,7 +36,7 @@
                 class="pa-0 ma-0"
               >
                 <v-btn
-                  @click="$emit('set-color', color)"
+                  @click="setColor({ proyect, color })"
                   small
                   icon
                   class="pa-0 ma-0"
@@ -48,7 +48,7 @@
           </v-container>
         </v-card>
       </v-menu>
-      <v-list-item @click="$emit('edit-proyect')" link>
+      <v-list-item @click="toggleProyectForm(proyect)" link>
         <v-list-item-icon>
           <v-icon>mdi-lead-pencil</v-icon>
         </v-list-item-icon>
@@ -56,7 +56,7 @@
           <v-list-item-title>Editar nombre y descripcion</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item @click="$emit('delete-proyect')" link>
+      <v-list-item v-if="deleteAction" @click="showDeleteDialog(proyect)" link>
         <v-list-item-icon>
           <v-icon class="red--text">mdi-trash-can-outline</v-icon>
         </v-list-item-icon>
@@ -72,12 +72,20 @@
 
 <script>
 import { colors } from "@/utils/proyect-colors.js";
+import { mapActions } from "vuex";
 export default {
-  props: ["selectedColor"],
+  props: ["proyect", "icon", "small", "darkButton", "deleteAction"],
   computed: {
     dataColors() {
       return colors;
     },
+  },
+  methods: {
+    ...mapActions("proyect", [
+      "setColor",
+      "toggleProyectForm",
+      "showDeleteDialog",
+    ]),
   },
 };
 </script>

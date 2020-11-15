@@ -1,26 +1,26 @@
 <template>
   <div>
-    <toolbar>
+    <toolbar v-if="proyect.id">
       <template v-slot:tools>
         <div class="tools-proyect ml-5 d-flex flex-row align-center">
           <div class="icon">
-            <v-icon color="indigo" large>mdi-layers-triple</v-icon>
+            <v-icon :color="proyect.color" large>mdi-layers-triple</v-icon>
           </div>
           <div class="proyect-toolbar ml-1 d-flex flex-column">
             <div class="proyect-title d-flex flex-row align-center">
-              <strong class="mr-1"> Mantenimiento del sistema Week </strong>
-              <!-- <ActionsMenu
-                :selected-color="proyect.color"
-                @set-color="setColor({ proyect, color: $event })"
-                @edit-proyect="toggleProyectForm(proyect)"
-                @delete-proyect="showDeleteDialog(proyect)"
-              /> -->
+              <strong class="mr-1"> {{ proyect.name }} </strong>
+              <ActionsMenu
+                small
+                :deleteAction="true"
+                icon="mdi-chevron-down"
+                :proyect="proyect"
+              />
               <v-btn icon small>
                 <v-icon>mdi-information-outline</v-icon>
               </v-btn>
             </div>
             <div class="proyect-tabs">
-              <v-tabs color="indigo">
+              <v-tabs :color="proyect.color">
                 <v-tab :to="{ name: 'ProyectTasksList' }">Lista </v-tab>
                 <v-tab :to="{ name: 'ProyectTasksBoard' }">Tablero</v-tab>
               </v-tabs>
@@ -29,26 +29,34 @@
         </div>
       </template>
     </toolbar>
-    <!-- <v-card-title primary-title> Proyectos </v-card-title> -->
     <v-container>
-      <!-- <v-tabs>
-        <v-tab :to="{ name: 'ProyectTasksList' }">Lista </v-tab>
-        <v-tab :to="{ name: 'ProyectTasksBoard' }">Tablero</v-tab>
-      </v-tabs> -->
-      <div class="py-1">
+      <div v-if="proyect.id" class="py-1">
         <transition name="slide-fade" mode="out-in">
           <router-view></router-view>
         </transition>
       </div>
     </v-container>
+    <DeleteConfirmation />
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
+  props: ["id"],
   data: () => ({
     dialog: false,
   }),
+  computed: {
+    ...mapState("proyect", ["proyect"]),
+  },
+  methods: {
+    ...mapActions("proyect", ["getProyect"]),
+  },
+  async created() {
+    await this.getProyect(this.id);
+    document.title = this.proyect.name + " - " + process.env.VUE_APP_NAME;
+  },
 };
 </script>
 <style lang="scss">
@@ -67,8 +75,8 @@ export default {
 .slide-fade-leave-active {
   transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
+.slide-fade-enter,
+.slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
 }

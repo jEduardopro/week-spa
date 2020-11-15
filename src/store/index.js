@@ -74,15 +74,16 @@ export default new Vuex.Store({
     },
     catchError({ commit, dispatch }, error) {
       let statusCode = error.response.status;
-      if (error.response.data.hasOwnProperty("exception")) {
-        dispatch("snackbar", {
-          message: "Hubo un error inesperado, intenta de nuevo",
-          type: "error",
-        });
-        return;
-      }
+      // if (error.response.data.hasOwnProperty("exception")) {
+      //   dispatch("snackbar", {
+      //     message: "Hubo un error inesperado, intenta de nuevo",
+      //     type: "error",
+      //   });
+      //   return;
+      // }
       switch (statusCode) {
         case 417:
+        case 500:
           dispatch("snackbar", {
             message: error.response.data.error,
             type: "error",

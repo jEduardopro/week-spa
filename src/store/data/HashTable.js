@@ -6,6 +6,9 @@ const HashTable = () => {
     return {
       collection: (module = null) => {
         if (module) {
+          if (!data[module]) {
+            return [];
+          }
           return Object.values(data[module]);
         }
         return Object.values(data);
@@ -34,6 +37,9 @@ const HashTable = () => {
       get: (key, module = null) => {
         let hash = key.replaceAll("-", "");
         if (module) {
+          if (!data[module]) {
+            return null;
+          }
           if (!data[module][hash]) {
             return null;
           } else {
@@ -49,6 +55,9 @@ const HashTable = () => {
       remove: (key, module = null) => {
         let hash = key.replaceAll("-", "");
         if (module) {
+          if (!data[module]) {
+            return null;
+          }
           if (!data[module][hash]) {
             return;
           } else {
