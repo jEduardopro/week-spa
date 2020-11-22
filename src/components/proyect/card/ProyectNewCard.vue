@@ -1,6 +1,6 @@
 <template>
   <div class="content-proyect-item proyect-new">
-    <v-card @click="toggleProyectForm" outlined flat class="proyect-item">
+    <v-card @click="showDialogToAddProyect" outlined flat class="proyect-item">
       <v-card-text>
         <div class="text--primary text-center">
           <v-icon large>mdi-plus</v-icon>
@@ -15,7 +15,7 @@
 import { mapActions } from "vuex";
 export default {
   methods: {
-    ...mapActions("proyect", ["toggleProyectForm"]),
+    ...mapActions("proyect", ["showDialogToAddProyect"]),
   },
 };
 </script>

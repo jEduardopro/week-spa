@@ -6,7 +6,7 @@
   >
     <v-card>
       <v-card-title primary-title>
-        Estas seguro de eliminar el {{ proyect.name }}?
+        Estas seguro de eliminar el {{ currentProyect.name }}?
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
@@ -37,7 +37,7 @@ import { mapFields } from "vuex-map-fields";
 export default {
   computed: {
     ...mapFields("proyect", ["deleteDialog"]),
-    ...mapGetters("proyect", ["proyect"]),
+    ...mapGetters("proyect", ["currentProyect"]),
   },
   methods: {
     ...mapActions("proyect", ["remove"]),

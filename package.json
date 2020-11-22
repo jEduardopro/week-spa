@@ -9,12 +9,13 @@
   "dependencies": {
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
-    "toastr": "^2.1.4",
-    "vue-toastr-2": "0.0.10",
+    "lodash.debounce": "^4.0.8",
     "moment": "^2.24.0",
-    "vue-moment": "^4.0.0",
+    "toastr": "^2.1.4",
     "vue": "^2.6.11",
+    "vue-moment": "^4.0.0",
     "vue-router": "^3.2.0",
+    "vue-toastr-2": "0.0.10",
     "vuetify": "^2.2.11",
     "vuex": "^3.4.0",
     "vuex-map-fields": "^1.4.1"

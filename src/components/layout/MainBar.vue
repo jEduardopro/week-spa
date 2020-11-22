@@ -64,7 +64,7 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item @click="toggleProyectForm" link>
+        <v-list-item @click="showDialogToAddProyect" link>
           <v-list-item-icon>
             <v-icon>mdi-layers-triple-outline</v-icon>
           </v-list-item-icon>
@@ -149,7 +149,7 @@ export default {
   methods: {
     ...mapActions(["toggleDrawer"]),
     ...mapActions("auth", ["logout"]),
-    ...mapActions("proyect", ["toggleProyectForm"]),
+    ...mapActions("proyect", ["showDialogToAddProyect"]),
     changeWidthParent() {
       this.activeInputSearch = true;
     },

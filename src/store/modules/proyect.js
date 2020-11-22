@@ -1,11 +1,10 @@
 import { getField, updateField } from "vuex-map-fields";
 import { PROYECT } from "@/store/types";
-import { hashTable } from "@/store/data/HashTable";
 export const state = {
   showForm: false,
   deleteDialog: false,
   proyects: [],
-  proyect: {
+  currentProyect: {
     id: null,
     name: null,
     description: null,
@@ -14,11 +13,17 @@ export const state = {
     meta: {},
     dates: {},
   },
+  form: {
+    id: null,
+    name: null,
+    description: null,
+    color: null,
+  },
 };
 export const getters = {
   getField,
   proyects: (state) => state.proyects,
-  proyect: (state) => state.proyect,
+  currentProyect: (state) => state.currentProyect,
   showForm: (state) => state.showForm,
 };
 export const mutations = {
@@ -27,17 +32,26 @@ export const mutations = {
     state.showForm = !state.showForm;
   },
   [PROYECT.SET_PROYECTS](state, proyects) {
-    proyects.forEach((proyect) => {
-      hashTable.insert(proyect.id, proyect, "proyects");
-    });
-    state.proyects = hashTable.collection("proyects");
+    state.proyects = proyects;
   },
   [PROYECT.SET_PROYECT](state, proyect) {
     if (proyect) {
-      state.proyect = proyect;
+      state.currentProyect = proyect;
       return;
     }
-    state.proyect = {
+    state.currentProyect = {
+      id: null,
+      name: null,
+      description: null,
+      color: null,
+    };
+  },
+  [PROYECT.SET_FORM](state, proyect) {
+    if (proyect) {
+      state.form = proyect;
+      return;
+    }
+    state.form = {
       id: null,
       name: null,
       description: null,
@@ -46,14 +60,13 @@ export const mutations = {
   },
   [PROYECT.ADD_PROYECT](state, proyect) {
     state.proyects.unshift(proyect);
-    hashTable.insert(proyect.id, proyect, "proyects");
   },
   [PROYECT.TOGGLE_DELETE_DIALOG](state) {
     state.deleteDialog = !state.deleteDialog;
   },
   [PROYECT.REMOVE_PROYECT](state, proyectId) {
-    hashTable.remove(proyectId, "proyects");
-    state.proyects = hashTable.collection("proyects");
+    let proyectIndex = state.proyects.find((p) => p.id == proyectId);
+    state.proyects.splice(proyectIndex, 1);
   },
 };
 export const actions = {
@@ -75,8 +88,8 @@ export const actions = {
       commit("TOGGLE_WAIT_RESPONSE", "waitResource", { root: true });
     }
   },
-  async getProyect({ commit, dispatch }, id) {
-    const proyect = hashTable.get(id, "proyects");
+  async getProyect({ state, commit, dispatch }, id) {
+    const proyect = state.proyects.find((p) => p.id == id);
     if (!proyect) {
       await dispatch("getProyectResource", id);
       return;
@@ -99,10 +112,25 @@ export const actions = {
       dispatch("catchError", error, { root: true });
     }
   },
+  showDialogToAddProyect({ commit }) {
+    commit(PROYECT.SET_FORM, null);
+    commit(PROYECT.TOGGLE_FORM);
+  },
   save({ state, dispatch }) {
-    let { id, name, description } = state.proyect;
+    const color = state.currentProyect.color;
+    let { id, name, description } = state.form;
     if (id) {
-      dispatch("update", { id, name, description });
+      if (name.trim().length > 0) {
+        dispatch("update", { id, name, description, color });
+      } else {
+        let proyectUpdated = {
+          id,
+          name: state.currentProyect.name.charAt(0),
+          description,
+          color,
+        };
+        dispatch("update", proyectUpdated);
+      }
       return;
     }
     dispatch("create", { name, description });
@@ -126,13 +154,22 @@ export const actions = {
       dispatch("catchError", error, { root: true });
     } finally {
       commit("TOGGLE_WAIT_RESPONSE", "loadingButton", { root: true });
-      dispatch("toggleProyectForm");
+      commit(PROYECT.TOGGLE_FORM);
     }
+  },
+  setColor({ dispatch }, { proyect, color }) {
+    proyect.color = color;
+    dispatch("update", { id: proyect.id, color });
+  },
+  showDialogToEditProyect({ commit }, proyect) {
+    commit(PROYECT.SET_FORM, proyect);
+    commit(PROYECT.SET_PROYECT, { ...proyect });
+    commit(PROYECT.TOGGLE_FORM);
   },
   async update({ commit, dispatch }, payload) {
     try {
       commit("TOGGLE_WAIT_RESPONSE", "loadingButton", { root: true });
-      await dispatch(
+      let proyectUpdated = await dispatch(
         "request",
         {
           method: "PUT",
@@ -141,15 +178,12 @@ export const actions = {
         },
         { root: true }
       );
+      commit(PROYECT.SET_PROYECT, proyectUpdated.data);
     } catch (error) {
       dispatch("catchError", error, { root: true });
     } finally {
       commit("TOGGLE_WAIT_RESPONSE", "loadingButton", { root: true });
     }
-  },
-  setColor({ dispatch }, { proyect, color }) {
-    proyect.color = color;
-    dispatch("update", { id: proyect.id, color });
   },
   showDeleteDialog({ commit }, proyect) {
     commit(PROYECT.SET_PROYECT, proyect);
@@ -157,14 +191,14 @@ export const actions = {
   },
   async remove({ state, commit, dispatch }) {
     try {
-      commit(PROYECT.REMOVE_PROYECT, state.proyect.id);
+      commit(PROYECT.REMOVE_PROYECT, state.currentProyect.id);
       commit(PROYECT.TOGGLE_DELETE_DIALOG);
       vm.$router.replace({ name: "Proyects" });
       await dispatch(
         "request",
         {
           method: "DELETE",
-          url: `proyects/${state.proyect.id}`,
+          url: `proyects/${state.currentProyect.id}`,
         },
         { root: true }
       );
@@ -173,9 +207,5 @@ export const actions = {
       console.log(error);
       dispatch("catchError", error, { root: true });
     }
-  },
-  toggleProyectForm({ commit }, proyect = null) {
-    commit(PROYECT.SET_PROYECT, proyect);
-    commit(PROYECT.TOGGLE_FORM);
   },
 };

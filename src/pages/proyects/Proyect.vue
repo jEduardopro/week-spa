@@ -1,26 +1,30 @@
 <template>
   <div>
-    <toolbar v-if="proyect.id">
+    <toolbar v-if="currentProyect.id">
       <template v-slot:tools>
         <div class="tools-proyect ml-5 d-flex flex-row align-center">
           <div class="icon">
-            <v-icon :color="proyect.color" large>mdi-layers-triple</v-icon>
+            <v-icon :color="currentProyect.color" large
+              >mdi-layers-triple</v-icon
+            >
           </div>
           <div class="proyect-toolbar ml-1 d-flex flex-column">
             <div class="proyect-title d-flex flex-row align-center">
-              <strong class="mr-1"> {{ proyect.name }} </strong>
+              <strong class="mr-1">
+                {{ displayName }}
+              </strong>
               <ActionsMenu
                 small
                 :deleteAction="true"
                 icon="mdi-chevron-down"
-                :proyect="proyect"
+                :proyect="currentProyect"
               />
               <v-btn icon small>
                 <v-icon>mdi-information-outline</v-icon>
               </v-btn>
             </div>
             <div class="proyect-tabs">
-              <v-tabs :color="proyect.color">
+              <v-tabs :color="currentProyect.color">
                 <v-tab :to="{ name: 'ProyectTasksList' }">Lista </v-tab>
                 <v-tab :to="{ name: 'ProyectTasksBoard' }">Tablero</v-tab>
               </v-tabs>
@@ -30,7 +34,7 @@
       </template>
     </toolbar>
     <v-container>
-      <div v-if="proyect.id" class="py-1">
+      <div v-if="currentProyect.id" class="py-1">
         <transition name="slide-fade" mode="out-in">
           <router-view></router-view>
         </transition>
@@ -48,14 +52,28 @@ export default {
     dialog: false,
   }),
   computed: {
-    ...mapState("proyect", ["proyect"]),
+    ...mapState("proyect", ["currentProyect"]),
+    displayName() {
+      const name = this.currentProyect.name;
+      if (name.length > 35) {
+        return name.slice(0, 30) + "...";
+      }
+      return name;
+    },
+  },
+  watch: {
+    "currentProyect.name"() {
+      document.title =
+        this.currentProyect.name + " - " + process.env.VUE_APP_NAME;
+    },
   },
   methods: {
     ...mapActions("proyect", ["getProyect"]),
   },
   async created() {
     await this.getProyect(this.id);
-    document.title = this.proyect.name + " - " + process.env.VUE_APP_NAME;
+    document.title =
+      this.currentProyect.name + " - " + process.env.VUE_APP_NAME;
   },
 };
 </script>

@@ -8,7 +8,7 @@
       <v-card-title>
         Crear proyecto
         <v-spacer></v-spacer>
-        <v-btn @click="toggleProyectForm" small fab elevation="0" text>
+        <v-btn @click="showForm = false" small fab elevation="0" text>
           <v-icon color="grey darken-1">mdi-close</v-icon>
         </v-btn>
       </v-card-title>
@@ -16,13 +16,13 @@
         <div class="text--primary">
           <v-text-field
             type="text"
-            v-model="proyect.name"
+            v-model="form.name"
             label="Nombre del proyecto"
             placeholder="Mi primer proyecto"
           ></v-text-field>
           <v-textarea
             label="Descripcion del proyecto"
-            v-model="proyect.description"
+            v-model="form.description"
             auto-grow
             placeholder="Proyecto escolar"
           ></v-textarea>
@@ -44,13 +44,27 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
+import debounce from "lodash.debounce";
 export default {
   computed: {
-    ...mapFields("proyect", ["showForm", "proyect"]),
+    ...mapFields("proyect", ["showForm", "form"]),
     ...mapGetters(["loadingButton"]),
   },
+  watch: {
+    "form.name"() {
+      this.saveAfterwards();
+    },
+    "form.description"() {
+      this.saveAfterwards();
+    },
+  },
   methods: {
-    ...mapActions("proyect", ["toggleProyectForm", "save"]),
+    ...mapActions("proyect", ["save"]),
+    saveAfterwards: debounce(function () {
+      if (this.form.id) {
+        this.save();
+      }
+    }, 500),
   },
 };
 </script>

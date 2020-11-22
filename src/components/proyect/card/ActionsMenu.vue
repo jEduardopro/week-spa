@@ -48,7 +48,7 @@
           </v-container>
         </v-card>
       </v-menu>
-      <v-list-item @click="toggleProyectForm(proyect)" link>
+      <v-list-item @click="showDialogToEditProyect(proyect)" link>
         <v-list-item-icon>
           <v-icon>mdi-lead-pencil</v-icon>
         </v-list-item-icon>
@@ -83,7 +83,7 @@ export default {
   methods: {
     ...mapActions("proyect", [
       "setColor",
-      "toggleProyectForm",
+      "showDialogToEditProyect",
       "showDeleteDialog",
     ]),
   },
