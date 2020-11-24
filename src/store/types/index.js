@@ -25,4 +25,14 @@ const PROYECT = {
   REMOVE_PROYECT: "REMOVE_PROYECT",
 };
 
-export { AUTH, DRAWER, PROYECT };
+const USER = {
+  SET_USERS: "SET_USERS",
+};
+
+const TASK = {
+  SET_TASKS: "SET_TASKS",
+  SET_TASK: "SET_TASK",
+  UPDATE_TASK: "UPDATE_TASK",
+};
+
+export { AUTH, DRAWER, PROYECT, USER, TASK };

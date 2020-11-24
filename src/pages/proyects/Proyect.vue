@@ -36,7 +36,9 @@
     <v-container>
       <div v-if="currentProyect.id" class="py-1">
         <transition name="slide-fade" mode="out-in">
-          <router-view></router-view>
+          <router-view
+            :proyectTasks="currentProyect.relationships.tasks"
+          ></router-view>
         </transition>
       </div>
     </v-container>
