@@ -6,6 +6,7 @@ export const state = {
     dates: {},
     description: null,
     due_date: null,
+    due_date_short: null,
     id: null,
     meta: {},
     name: null,
@@ -108,10 +109,40 @@ export const actions = {
     }
   },
 
+  async updateDueDate({ state, dispatch }) {
+    let payload = {
+      id: state.currentTask.id,
+      due_date: state.currentTask.due_date ? state.currentTask.due_date : null,
+    };
+    let taskUpdated = await dispatch("update", payload);
+    if (taskUpdated) {
+      let task = state.tasks.find((t) => t.id == taskUpdated.id);
+      if (task) {
+        task.due_date = taskUpdated.due_date;
+        task.due_date_short = taskUpdated.due_date_short;
+      }
+    }
+  },
+
+  async updatePriority({ state, dispatch }) {
+    let payload = {
+      id: state.currentTask.id,
+      priority: state.currentTask.priority,
+    };
+    let taskUpdated = await dispatch("update", payload);
+    if (taskUpdated) {
+      let task = state.tasks.find((t) => t.id == taskUpdated.id);
+      if (task) {
+        task.priority = taskUpdated.priority;
+        task.priority_text = taskUpdated.priority_text;
+      }
+    }
+  },
+
   async update({ state, commit, dispatch }, payload) {
     let taskUpdated = null;
     try {
-      taskUpdated = await dispatch(
+      let resp = await dispatch(
         "request",
         {
           method: "PUT",
@@ -120,11 +151,12 @@ export const actions = {
         },
         { root: true }
       );
+      taskUpdated = resp.data;
       // commit([TASK.UPDATE_TASK], taskUpdated.data);
     } catch (error) {
       dispatch("catchError", error, { root: true });
     } finally {
-      return taskUpdated.data;
+      return taskUpdated;
     }
   },
 };

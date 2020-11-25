@@ -44,8 +44,8 @@ export default {
   },
   methods: {
     detectModel(evt) {
-      console.log(evt);
-      console.log("detect model drawer global");
+      // console.log(evt);
+      // console.log("detect model drawer global");
     },
   },
 };

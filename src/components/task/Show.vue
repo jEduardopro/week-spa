@@ -68,15 +68,20 @@
       </v-toolbar>
     </portal>
     <v-text-field
+      dense
+      outlined
       label="Nombre de la tarea"
       v-model="currentTask.name"
-      height="28px"
       hide-details="auto"
       class="mb-3"
     ></v-text-field>
     <v-autocomplete
       v-model="currentTask.responsable_id"
       :items="users"
+      dense
+      outlined
+      hide-details="auto"
+      class="mb-3"
       item-text="name"
       item-value="id"
       label="Responsable"
@@ -98,11 +103,14 @@
         <v-text-field
           v-model="currentTask.due_date"
           label="Fecha de fin"
-          height="28px"
+          readonly
+          outlined
+          dense
           hide-details="auto"
           class="mb-3"
           v-bind="attrs"
           v-on="on"
+          clearable
         ></v-text-field>
       </template>
       <v-date-picker
@@ -113,14 +121,17 @@
         @input="datePickMenu = false"
       ></v-date-picker>
     </v-menu>
-    <v-autocomplete
+    <v-select
       v-model="currentTask.priority"
       :items="priorities"
+      @change="updatePriority"
       item-text="priority_text"
       item-value="priority"
       label="Prioridad"
-      clearable
-      no-data-text="No se encontraron prioridades"
+      dense
+      hide-details="auto"
+      class="mb-3"
+      outlined
     >
       <template v-slot:selection="{ item }">
         <v-chip :color="taskPriorityColor(item.priority_text)" x-small>
@@ -132,11 +143,13 @@
           {{ item.priority_text }}
         </v-chip>
       </template>
-    </v-autocomplete>
+    </v-select>
     <v-textarea
       v-model="currentTask.description"
       label="Descripcion de la tarea"
       auto-grow
+      outlined
+      dense
       row-height="8"
       placeholder="Mi primer tarea"
       class="mb-0"
@@ -179,9 +192,9 @@ export default {
     "currentTask.description"(oval, val) {
       this.updateAfterTyping();
     },
-    // "currentTask.responsable_id"(oval, val) {
-    //   this.updateResponsable();
-    // },
+    "currentTask.due_date"(oval, val) {
+      this.updateDueDate();
+    },
   },
   computed: {
     ...mapFields("task", [
@@ -194,12 +207,15 @@ export default {
   },
   methods: {
     ...mapActions("user", ["getUsers"]),
-    ...mapActions("task", ["updateAfterTyping", "updateResponsable"]),
+    ...mapActions("task", [
+      "updateAfterTyping",
+      "updateResponsable",
+      "updateDueDate",
+      "updatePriority",
+    ]),
   },
   created() {
     this.getUsers();
-    console.log(this.title);
-    console.log(this.portalKey);
   },
 };
 </script>
