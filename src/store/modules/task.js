@@ -35,6 +35,19 @@ export const state = {
       priority_text: "baja",
     },
   ],
+  subtaskBluePrint: {
+    id: null,
+    task_id: null,
+    name: null,
+    description: null,
+    due_date: "",
+    responsable_id: null,
+    priority: null,
+    status: null,
+    relationships: {},
+    meta: {},
+    dates: {},
+  },
   table: {
     headers: [
       {
@@ -84,6 +97,7 @@ export const actions = {
   setCurrentTask({ commit }, task) {
     commit(TASK.SET_TASK, task);
   },
+
   updateAfterTyping: debounce(({ state, dispatch }) => {
     let payload = {
       id: state.currentTask.id,
@@ -159,4 +173,40 @@ export const actions = {
       return taskUpdated;
     }
   },
+
+  async addSubtask({ state, commit, dispatch }, parentTask) {
+    try {
+      let subtask = state.subtaskBluePrint;
+      let newSubtask = {
+        task_id: parentTask.id,
+      };
+      parentTask.relationships.subtasks.push(subtask);
+      let resp = await dispatch(
+        "request",
+        {
+          method: "POST",
+          url: "subtasks",
+          data: newSubtask,
+        },
+        { root: true }
+      );
+      subtask = resp.data;
+    } catch (error) {
+      dispatch("catchError", error, { root: true });
+    }
+  },
+
+  updateAfterTypingSubtask: debounce(
+    ({ state, dispatch }, { name, subtaskId }) => {
+      console.log(name);
+      console.log(subtaskId);
+      // let payload = {
+      //   id: state.currentTask.id,
+      //   name: state.currentTask.name,
+      //   description: state.currentTask.description,
+      // };
+      // dispatch("updateTaskName", payload);
+    },
+    500
+  ),
 };

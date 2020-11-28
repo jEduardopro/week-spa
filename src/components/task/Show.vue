@@ -150,20 +150,18 @@
       auto-grow
       outlined
       dense
-      row-height="8"
       placeholder="Mi primer tarea"
       class="mb-0"
       hide-details="auto"
     ></v-textarea>
-    <v-card-subtitle
-      class="text--secondary px-0 my-0 d-flex flex-row align-center"
-    >
+    <v-card-subtitle class="text--secondary px-0 my-0 d-flex">
       <!-- <span>Sub tareas</span>
       <v-spacer></v-spacer> -->
       <v-btn
         x-small
         elevation="0"
         outlined
+        @click="addSubtask(currentTask)"
         class="text-capitalize text--secondary"
       >
         <v-icon small>mdi-plus</v-icon>
@@ -171,6 +169,64 @@
         agregar sub tarea
       </v-btn>
     </v-card-subtitle>
+    <div v-if="currentTask.relationships.subtasks.length > 0">
+      <p
+        class="pa-0 ma-0 grey--text text--darken-2 font-weight-bold subheading caption"
+      >
+        Subtasks
+      </p>
+      <div class="subtasks-list">
+        <v-text-field
+          v-for="(subtask, index) in currentTask.relationships.subtasks"
+          :key="index + Math.random()"
+          type="text"
+          dense
+          @keyup.prevent="
+            updateAfterTypingSubtask({
+              name: $event.target.value,
+              subtaskId: subtask.id,
+            })
+          "
+          hideDetails
+          :value="subtask.name"
+          outlined
+          @click.prevent.right="deleteSubtask(subtask)"
+        >
+          <template v-slot:append>
+            <v-btn
+              class="mb-1"
+              color="grey darken-2"
+              elevation="0"
+              fab
+              outlined
+              x-small
+            >
+              <v-icon small>mdi-calendar-blank</v-icon>
+            </v-btn>
+            <v-btn
+              class="mx-1 mb-1"
+              color="grey darken-2"
+              elevation="0"
+              fab
+              outlined
+              x-small
+            >
+              <v-icon small>mdi-account</v-icon>
+            </v-btn>
+            <v-btn
+              class="mb-1"
+              color="grey darken-2"
+              elevation="0"
+              fab
+              outlined
+              x-small
+            >
+              <v-icon small>mdi-android-messages</v-icon>
+            </v-btn>
+          </template>
+        </v-text-field>
+      </div>
+    </div>
   </v-container>
 </template>
 
@@ -203,6 +259,9 @@ export default {
       "nowDate",
       "currentTask",
     ]),
+    // subtasks() {
+    //   return this.currentTask.relationships.subtasks;
+    // },
     ...mapState("user", ["users"]),
   },
   methods: {
@@ -212,7 +271,10 @@ export default {
       "updateResponsable",
       "updateDueDate",
       "updatePriority",
+      "addSubtask",
+      "updateAfterTypingSubtask",
     ]),
+    deleteSubtask(id) {},
   },
   created() {
     this.getUsers();
