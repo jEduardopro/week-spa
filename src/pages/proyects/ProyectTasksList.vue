@@ -63,11 +63,12 @@
             }}
           </span>
           <v-btn
+            v-if="item.relationships.subtasks.length > 0"
             x-small
             class="pa-0 ma-0 text--secondary d-none d-sm-flex"
             elevation="0"
           >
-            2
+            {{ item.relationships.subtasks.length }}
             <v-icon small class="pa-0 ma-0">mdi-file-tree</v-icon>
           </v-btn>
           <v-spacer></v-spacer>

@@ -20,6 +20,7 @@ export const state = {
   },
   date: new Date().toISOString().substr(0, 10),
   datePickMenu: false,
+  datePickMenuSubtask: false,
   nowDate: new Date().toISOString().substr(0, 10),
   priorities: [
     {
@@ -35,19 +36,22 @@ export const state = {
       priority_text: "baja",
     },
   ],
-  subtaskBluePrint: {
-    id: null,
-    task_id: null,
-    name: null,
-    description: null,
-    due_date: "",
-    responsable_id: null,
-    priority: null,
-    status: null,
-    relationships: {},
-    meta: {},
+  currentSubtask: {
     dates: {},
+    description: null,
+    due_date: null,
+    due_date_short: null,
+    id: null,
+    meta: {},
+    name: null,
+    priority: null,
+    priority_text: null,
+    relationships: {},
+    responsable_id: null,
+    status: null,
+    task_id: null,
   },
+  editSubtaskDialog: false,
   table: {
     headers: [
       {
@@ -87,6 +91,12 @@ export const mutations = {
   },
   [TASK.UPDATE_TASK](state, task) {
     state.currentTask = task;
+  },
+  [TASK.SET_SUBTASK](state, subtask) {
+    state.currentSubtask = subtask;
+  },
+  [TASK.SHOW_EDIT_SUBTASK_DIALOG](state) {
+    state.editSubtaskDialog = true;
   },
 };
 
@@ -176,11 +186,11 @@ export const actions = {
 
   async addSubtask({ state, commit, dispatch }, parentTask) {
     try {
-      let subtask = state.subtaskBluePrint;
+      let subtask = state.currentSubtask;
       let newSubtask = {
         task_id: parentTask.id,
+        priority: 0,
       };
-      parentTask.relationships.subtasks.push(subtask);
       let resp = await dispatch(
         "request",
         {
@@ -191,22 +201,91 @@ export const actions = {
         { root: true }
       );
       subtask = resp.data;
+      parentTask.relationships.subtasks.push(subtask);
     } catch (error) {
       dispatch("catchError", error, { root: true });
     }
   },
 
+  showEditSubtaskDialog({ commit }, currentSubtask) {
+    commit(TASK.SET_SUBTASK, currentSubtask);
+    commit(TASK.SHOW_EDIT_SUBTASK_DIALOG);
+  },
+
   updateAfterTypingSubtask: debounce(
     ({ state, dispatch }, { name, subtaskId }) => {
-      console.log(name);
-      console.log(subtaskId);
-      // let payload = {
-      //   id: state.currentTask.id,
-      //   name: state.currentTask.name,
-      //   description: state.currentTask.description,
-      // };
-      // dispatch("updateTaskName", payload);
+      let payload = {
+        id: subtaskId,
+        task_id: state.currentTask.id,
+        name,
+      };
+      dispatch("updateSubtask", payload).then((subtaskUpdated) => {
+        if (subtaskUpdated) {
+          let subtask = state.currentTask.relationships.subtasks.find(
+            (t) => t.id == subtaskUpdated.id
+          );
+          if (subtask) {
+            subtask.name = subtaskUpdated.name;
+          }
+        }
+      });
     },
     500
   ),
+
+  async updateSubtask({ state, commit, dispatch }, payload) {
+    let subtaskUpdated = null;
+    commit("TOGGLE_WAIT_RESPONSE", "loadingButton", { root: true });
+    try {
+      let resp = await dispatch(
+        "request",
+        {
+          method: "PUT",
+          url: `subtasks/${payload.id}`,
+          data: payload,
+        },
+        { root: true }
+      );
+      subtaskUpdated = resp.data;
+      state.currentSubtask = resp.data;
+      let subtaskIndex = state.currentTask.relationships.subtasks.findIndex(
+        (s) => s.id == payload.id
+      );
+      if (subtaskIndex != -1) {
+        dispatch("updateSubtaskInArray", subtaskIndex);
+      }
+    } catch (error) {
+      dispatch("catchError", error, { root: true });
+    } finally {
+      commit("TOGGLE_WAIT_RESPONSE", "loadingButton", { root: true });
+      return subtaskUpdated;
+    }
+  },
+
+  updateSubtaskInArray({ state }, subtaskIndex) {
+    let subtaskUpdated = state.currentSubtask;
+    state.currentTask.relationships.subtasks.splice(
+      subtaskIndex,
+      1,
+      subtaskUpdated
+    );
+  },
+
+  async deleteSubtask({ state, dispatch }, subtaskId) {
+    let subtasks = state.currentTask.relationships.subtasks;
+    let deleteSubtaskIndex = subtasks.findIndex((s) => s.id == subtaskId);
+    subtasks.splice(deleteSubtaskIndex, 1);
+    try {
+      let resp = await dispatch(
+        "request",
+        {
+          method: "DELETE",
+          url: `subtasks/${subtaskId}`,
+        },
+        { root: true }
+      );
+    } catch (error) {
+      dispatch("catchError", error, { root: true });
+    }
+  },
 };
